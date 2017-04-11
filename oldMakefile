@@ -1,0 +1,14 @@
+all: server client oldServer
+	
+
+server:
+	gcc -D IDENTIFIER=$(identifier) server.c -o server
+
+oldServer:
+	gcc -D IDENTIFIER=$(identifier) oldServer.c -o oldServer
+
+client:
+	gcc client.c -o client
+
+clean:
+	rm *.o server client *~
