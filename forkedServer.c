@@ -1,5 +1,6 @@
 /* A simple server in the internet domain using TCP
    The port number is passed as an argument */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,6 +23,20 @@ int main(int argc, char *argv[])
      struct sockaddr_in serv_addr, cli_addr;
      int n, i;
      pid_t pid;
+
+     int idSize = 100;
+     char buf[idSize];
+     char formattedString[idSize + 20];
+
+     FILE * idFile = fopen("./drone_id.txt", "r");
+  
+     //  fgets( char *buf, int n, FILE *fp );
+     fgets(buf, idSize, idFile);
+  
+     sprintf (formattedString, "my id is: %s\n", buf);
+     printf("my id is: %s\n", buf);
+     printf("my formattted id is: repeat: %s", formattedString);
+     int outlen = strlen(formattedString);
 
      if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");
@@ -57,7 +72,8 @@ int main(int argc, char *argv[])
 	 n = read(newsockfd,buffer,255);
 	 if (n < 0) error("ERROR reading from socket");
 	 printf("Here is the message: %s\n",buffer);
-	 n = write(newsockfd,"my name is FAFSBU",18);
+/* 	 n = write(newsockfd,"my name is FAFSBU",18); */
+	 n = write(newsockfd, formattedString, outlen);
 	 if (n < 0) error("ERROR writing to socket");
 	 break;
        }
