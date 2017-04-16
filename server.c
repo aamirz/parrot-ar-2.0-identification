@@ -37,29 +37,54 @@ int main(int argc, char *argv[])
               sizeof(serv_addr)) < 0)
               error("ERROR on binding");
 
-     while(1) {
-	/* listen on the socket */ 
-	listen(sockfd,5);
-	clilen = sizeof(cli_addr);
-     	newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+     listen(sockfd,5);
+     clilen = sizeof(cli_addr);
+     printf("successfully listening \n");
 
-	pid_t pid = fork();
-	
-	/* child process handles the task */
-	if (pid == 0) {
-	     	if (newsockfd < 0)
-        		  error("ERROR on accept");
-     		bzero(buffer,256);
-     		n = read(newsockfd,buffer,255);
-     		if (n < 0) error("ERROR reading from socket");
-     		printf("Here is the message: %s\n",buffer);
-     		n = write(newsockfd,"I got your message",18);
-     		if (n < 0) error("ERROR writing to socket");
-		break;
-		}
-		else {
-			continue;
-		}
-	}
-	return 0;
+     newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+     if (newsockfd < 0) 
+       error("ERROR on accept");
+     bzero(buffer,256);
+     n = read(newsockfd,buffer,255);
+     if (n < 0) error("ERROR reading from socket");
+     printf("Here is the message: %s\n",buffer);
+     n = write(newsockfd,"I got your message",18);
+     if (n < 0) error("ERROR writing to socket"); 
+     
+     
+ 
+/*      while(1) { */
+/*        /\* listen on the socket *\/  */
+/*        newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen); */
+
+/*        /\* child process handles the task *\/ */
+/*        if (pid == 0) { */
+/* 	 if (newsockfd < 0) */
+/* 	   error("ERROR on accept"); */
+/* 	 bzero(buffer,256); */
+/* 	 n = read(newsockfd,buffer,255); */
+/* 	 if (n < 0) error("ERROR reading from socket"); */
+/* 	 printf("Here is the message: %s\n",buffer); */
+/* 	 n = write(newsockfd,"I got your message",18); */
+/* 	 if (n < 0) error("ERROR writing to socket"); */
+/* 	 break; */
+/*        } */
+/*        else { */
+/* 	 continue; */
+/*        } */
+      
+/*        if (newsockfd < 0)  */
+/* 	   error("ERROR on accept"); */
+/*        bzero(buffer,256); */
+/*        n = read(newsockfd,buffer,255); */
+/*        if (n < 0) error("ERROR reading from socket"); */
+/*        printf("Here is the message: %s\n",buffer); */
+/*        n = write(newsockfd,"I got your message",18); */
+/*        if (n < 0) error("ERROR writing to socket"); */
+/*        break; */
+
+/*      }  */
+
+     return 0;
 }
+ 
