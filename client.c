@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     serv_addr.sin_port = htons(portno);
 
     bzero(buffer,256);
-    printf("buffer zeroed, now connecting...\n");
+/*     printf("buffer zeroed, now connecting...\n"); */
     if (connect(sockfd,(struct sockaddr *)&serv_addr,sizeof(serv_addr)) < 0)
         error("ERROR connecting");
 
@@ -53,11 +53,11 @@ int main(int argc, char *argv[])
 /*     n = write(sockfd,buffer,strlen(buffer)); */
 /*     if (n < 0) */
 /*          error("ERROR writing to socket"); */
-    n = write(sockfd,"i love cake",strlen("i love cake"));
+/*     n = write(sockfd,"i love cake",strlen("i love cake")); */
     if (n < 0)
       error("didn't give message to server");
     n = read(sockfd,buffer,30);
-    printf("passed read on client side \n");
+/*     printf("passed read on client side \n"); */
     if (n < 0)
          error("ERROR reading from socket");
     printf("%s\n",buffer);

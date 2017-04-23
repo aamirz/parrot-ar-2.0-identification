@@ -33,9 +33,9 @@ int main(int argc, char *argv[])
      //  fgets( char *buf, int n, FILE *fp );
      fgets(buf, idSize, idFile);
   
-     sprintf (formattedString, "my id is: %s\n", buf);
+     sprintf (formattedString, "id: %s\n", buf);
      printf("my id is: %s\n", buf);
-     printf("my formattted id is: repeat: %s", formattedString);
+     printf("LOL: %s", formattedString);
      int outlen = strlen(formattedString);
 
      if (argc < 2) {
@@ -62,27 +62,38 @@ int main(int argc, char *argv[])
 
        newsockfd = accept(sockfd, 
 			  (struct sockaddr *) &cli_addr, 
-			  &clilen);       
-       pid = fork();
-
+			  &clilen);
+       if (newsockfd > 0)
+	 {
+	   pid = fork();
+	 }
+       else {
+	 close(newsockfd);
+	 continue;
+       }
+       
        if (pid == 0) {
+	 close(sockfd);
 	 if (newsockfd < 0) 
 	   error("ERROR on accept");
-	 bzero(buffer,256);
-	 n = read(newsockfd,buffer,255);
-	 if (n < 0) error("ERROR reading from socket");
-	 printf("Here is the message: %s\n",buffer);
+
+/* 	 bzero(buffer,256); */
+/* 	 n = read(newsockfd,buffer,255); */
+/* 	 if (n < 0) error("ERROR reading from socket"); */
+/* 	 printf("Here is the message: %s\n",buffer); */
 /* 	 n = write(newsockfd,"my name is FAFSBU",18); */
 	 n = write(newsockfd, formattedString, outlen);
 	 if (n < 0) error("ERROR writing to socket");
-	 break;
+	 close(newsockfd);
+	 exit(EXIT_SUCCESS);
        }
        else {
+	 close(newsockfd);
 	 continue;
        }
      }
 
      close(newsockfd);
      close(sockfd);  
-     return 0; 
+     exit(EXIT_SUCCESS); 
 }
