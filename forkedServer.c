@@ -28,15 +28,17 @@ int main(int argc, char *argv[])
      char buf[idSize];
      char formattedString[idSize + 20];
 
+
      FILE * idFile = fopen("./drone_id.txt", "r");
-  
-     //  fgets( char *buf, int n, FILE *fp );
+
+     /*  fgets( char *buf, int n, FILE *fp ); */
      fgets(buf, idSize, idFile);
   
      sprintf (formattedString, "id: %s\n", buf);
      printf("my id is: %s\n", buf);
      printf("LOL: %s", formattedString);
      int outlen = strlen(formattedString);
+
 
      if (argc < 2) {
          fprintf(stderr,"ERROR, no port provided\n");
@@ -57,6 +59,7 @@ int main(int argc, char *argv[])
      clilen = sizeof(cli_addr);
      
      i = 0;
+	printf("entering while loop \n");
      while(1) {
        i++;
 
@@ -71,7 +74,7 @@ int main(int argc, char *argv[])
 	 close(newsockfd);
 	 continue;
        }
-       
+	       
        if (pid == 0) {
 	 close(sockfd);
 	 if (newsockfd < 0) 
