@@ -1,0 +1,6 @@
+#!/bin/bash
+END=$1
+for i in $(seq 1 $END)
+do echo "runalot\n" | ./client 192.168.1.1 7777
+done
+
